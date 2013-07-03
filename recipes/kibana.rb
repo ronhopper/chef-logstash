@@ -6,17 +6,6 @@ kibana_home = node['logstash']['kibana']['home']
 kibana_log_dir = node['logstash']['kibana']['log_dir']
 kibana_pid_dir = node['logstash']['kibana']['pid_dir']
 
-include_recipe "rbenv::default"
-include_recipe "rbenv::ruby_build"
-
-rbenv_ruby "1.9.3-p194" do
-  global true
-end
-
-rbenv_gem "bundler" do
-  ruby_version "1.9.3-p194"
-end
-
 if Chef::Config[:solo]
   es_server_ip = node['logstash']['elasticsearch_ip']
 else
@@ -39,8 +28,6 @@ when "ruby"
     home "/home/kibana"
     shell "/bin/bash"
   end
-  
-  node.set[:rbenv][:group_users] = [ "kibana" ]
 
   [ kibana_pid_dir, kibana_log_dir ].each do |dir|
     Chef::Log.debug(dir)
@@ -123,7 +110,7 @@ when "ruby"
 
   bash "bundle install" do
     cwd kibana_home
-    code "source /etc/profile.d/rbenv.sh && bundle install"
+    code "bundle install"
     not_if { ::File.exists? "#{kibana_home}/Gemfile.lock" }
   end
 
