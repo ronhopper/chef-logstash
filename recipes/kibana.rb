@@ -20,6 +20,9 @@ end
 es_server_port = node['logstash']['elasticsearch_port'].empty? ? '9200' : node['logstash']['elasticsearch_port']
 
 #install new kibana version only if is true
+
+kibana_version = node['logstash']['kibana']['sha']
+
 case node['logstash']['kibana']['language'].downcase
 when "ruby"
 
@@ -169,8 +172,6 @@ when "php"
   include_recipe "apache2"
   include_recipe "apache2::mod_php5"
   include_recipe "php::module_curl"
-
-  kibana_version = node['logstash']['kibana']['sha']
 
   apache_module "php5" do
     action :enable
