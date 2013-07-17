@@ -7,7 +7,7 @@
       Order allow,deny
       AuthType Basic
       AuthName "Password Required"
-      AuthUserFile "<%= node['logstash']['basedir'] %>/kibana/<%= node['logstash']['kibana']['sha'] %>/htpasswd %>"
+      AuthUserFile "<%= node['logstash']['basedir'] %>/kibana/<%= node['logstash']['kibana']['sha'] %>/htpasswd"
       Require valid-user
       Allow from all
   </Location>
